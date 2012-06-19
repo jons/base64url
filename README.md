@@ -1,4 +1,4 @@
 base64url
 =========
 
-base64url, rfc 4648
+<p>RFC 4648 compliant (i hope) re-entrant base64url encoder/decoder in ANSI C</p>
