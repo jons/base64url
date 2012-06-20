@@ -17,7 +17,6 @@ int base64url_encode(char *dest, const size_t maxlen, const char *src, const siz
          dsz = 0;
   b64ue_t s;
 
-  *dlen = 0;
   base64url_encode_reset(&s);
   for (i = 0; i < len; i++)
   {
@@ -59,7 +58,6 @@ int base64url_decode(char *dest, const size_t maxlen, const char *src, const siz
          dsz = 0;
   b64ud_t s;
 
-  *dlen = 0;
   base64url_decode_reset(&s);
   for (i = 0; i < len; i++)
   {
@@ -216,6 +214,7 @@ void base64url_decode_reset(b64ud_t *state)
 {
   state->f = 0; /* unnamed state flag */
   state->s = 0; /* buffer state */
+  state->k = 3; /* output state */
   state->r = 0; /* next return char */
   state->a = 0; /* buffer */
   state->b = 0; /* buffer */
@@ -276,14 +275,16 @@ int base64url_decode_finish(b64ud_t *state)
 {
   uint8_t k;
   k = state->k;
+
   if (k > 2)
     return 0;
-  if (k > 1) {
+
+  if (k > 1)
     state->t = (state->a << 3 * 6)
              + (state->b << 2 * 6)
              + (state->c << 1 * 6);
-  }
+
   state->r = (state->t >> k * 8) & 0xff;
-  state->k--;
+  state->k = k - 1;
   return 1;
 }
