@@ -20,7 +20,7 @@ struct b64ue
 
 struct b64ud
 {
-  uint8_t   f, s, k;
+  uint8_t   f, s, k, q;
   uint32_t  a, b, c, t;
   char r;
 };

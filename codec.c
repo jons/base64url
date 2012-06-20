@@ -215,6 +215,7 @@ void base64url_decode_reset(b64ud_t *state)
   state->f = 0; /* unnamed state flag */
   state->s = 0; /* buffer state */
   state->k = 3; /* output state */
+  state->q = 0; /* runoff quota */
   state->r = 0; /* next return char */
   state->a = 0; /* buffer */
   state->b = 0; /* buffer */
@@ -238,6 +239,7 @@ int base64url_decode_ingest(b64ud_t *state, unsigned char c)
     state->a = base64url_dtab[c];
     state->r = (state->t >> 1 * 8) & 0xff;
     state->k = 0;
+    state->q = 3;
     state->s = 1;
     return state->f;
 
@@ -245,11 +247,13 @@ int base64url_decode_ingest(b64ud_t *state, unsigned char c)
     state->b = base64url_dtab[c];
     state->r = (state->t >> 0 * 8) & 0xff;
     state->k = 2;
+    state->q = 1;
     state->s = 2;
     return state->f;
 
   case 2:
     state->c = base64url_dtab[c];
+    state->q = 2;
     state->s = 3;
     return 0;
 
@@ -264,6 +268,7 @@ int base64url_decode_ingest(b64ud_t *state, unsigned char c)
     state->c = 0;
     state->r = (state->t >> 2 * 8) & 0xff;
     state->k = 1;
+    state->q = 3;
     state->s = 0;
     return 1;
   }
@@ -275,7 +280,7 @@ int base64url_decode_finish(b64ud_t *state)
 {
   uint8_t k;
   k = state->k;
-
+ 
   if (k > 2)
     return 0;
 
@@ -283,6 +288,9 @@ int base64url_decode_finish(b64ud_t *state)
     state->t = (state->a << 3 * 6)
              + (state->b << 2 * 6)
              + (state->c << 1 * 6);
+
+  if (state->q-- == 0)
+    return 0;
 
   state->r = (state->t >> k * 8) & 0xff;
   state->k = k - 1;
