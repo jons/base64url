@@ -1,10 +1,13 @@
 /**
+ * re-entrant base64url
+ * @author jon <jon@wroth.org>
+ * CCBYSA3.0
  */
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
+/*#include <stdio.h>*/
 #include <assert.h>
-#include "codec.h"
+#include "librb64u.h"
 
 
 static const char base64url_etab[64] =
@@ -72,7 +75,8 @@ int base64url_encode(char *dest, const size_t maxlen, const char *src, const siz
       break;
   }
   if (lost > 0) {
-    fprintf(stderr, "base64url_encode: dropped %zu bytes to avoid output buffer overrun.", lost);
+    /*no support for %z in C90 and no need for output anyway */
+    /*fprintf(stderr, "base64url_encode: dropped %zu bytes to avoid output buffer overrun.", lost);*/
     return -1;
   }
   *dlen = dsz;
@@ -113,7 +117,8 @@ int base64url_decode(char *dest, const size_t maxlen, const char *src, const siz
       break;
   }
   if (lost > 0) {
-    fprintf(stderr, "base64url_decode: dropped %zu bytes to avoid output buffer overrun.", lost);
+    /*no support for %z in C90 and no need for output anyway */
+    /*fprintf(stderr, "base64url_decode: dropped %zu bytes to avoid output buffer overrun.", lost);*/
     return -1;
   }
   *dlen = dsz;
@@ -155,7 +160,7 @@ int base64url_encode_ingest(b64ue_t *state, char c)
 
   i = state->i;
   state->b[i] = c;
-  state->i = (i > BSZ-2) ? 0 : i + 1;
+  state->i = (i > RB64U_RXBUFSZ-2) ? 0 : i + 1;
   state->n++;
   state->q++;
 
@@ -174,13 +179,13 @@ int base64url_encode_ingest(b64ue_t *state, char c)
     j = state->j;
     t =  (state->b[j] << 0x10);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     t += (state->b[j] << 0x08);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     t += (state->b[j]);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     state->j = j;
     state->t = t;
     state->n = n - 3;
@@ -215,13 +220,13 @@ int base64url_encode_finish(b64ue_t *state)
     j = state->j;
     t =  (state->b[j] << 0x10);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     t += (state->b[j] << 0x08);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     t += (state->b[j]);
     state->b[j] = 0;
-    j = (j > BSZ-2) ? 0 : j + 1;
+    j = (j > RB64U_RXBUFSZ-2) ? 0 : j + 1;
     state->j = j;
     state->t = t;
     state->n = 0;

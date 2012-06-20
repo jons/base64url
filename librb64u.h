@@ -1,11 +1,14 @@
 /**
+ * re-entrant base64url
+ * @author jon <jon@wroth.org>
+ * CCBYSA3.0
  */
-#ifndef CODEC_H
-#define CODEC_H
+#ifndef LIB_RB64U_H
+#define LIB_RB64U_H
 #include <stdlib.h>
 #include <stdint.h>
 
-#define BSZ (4)
+#define RB64U_RXBUFSZ (4)
 
 typedef struct b64ue b64ue_t;
 typedef struct b64ud b64ud_t;
@@ -14,7 +17,7 @@ struct b64ue
 {
   uint8_t   f;
   size_t    q, i, j, n;
-  uint32_t  b[BSZ], t, k;
+  uint32_t  b[RB64U_RXBUFSZ], t, k;
   char r;
 };
 
