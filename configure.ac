@@ -12,9 +12,10 @@ AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_CC
 AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h stdint.h stdio.h string.h])
+AC_CHECK_HEADERS([stdlib.h stdint.h string.h])
 
 AC_C_CONST
 AC_TYPE_SIZE_T
