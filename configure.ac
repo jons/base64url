@@ -7,7 +7,7 @@ LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_HEADER([config.h])
-AC_CONFIG_SRCDIR([codec.c])
+AC_CONFIG_SRCDIR([librb64u.c])
 AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_CC
