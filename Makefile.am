@@ -1,4 +1,4 @@
-SUBDIRS = .
+SUBDIRS = . tests
 
 lib_LTLIBRARIES = librb64u.la
 include_HEADERS = librb64u.h

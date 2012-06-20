@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "codec.h"
+#include "librb64u.h"
 
 
 int main (int argc, char **argv)
