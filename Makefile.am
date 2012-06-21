@@ -8,5 +8,4 @@ ACLOCAL_AMFLAGS = -I m4
 
 AM_CFLAGS = -ansi -pedantic -Wall
 
-librb64u_la_FLAGS = -version-info:0.0.0
-
+librb64u_la_LDFLAGS = -version-info ${base64url_ltver}

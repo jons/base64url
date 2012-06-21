@@ -17,3 +17,5 @@ libtool
 stamp-h1
 gen-dtab
 test-base64url
+*.tar
+*.gz

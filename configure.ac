@@ -1,7 +1,12 @@
+# specify the binary interface here and allow tags to follow this schema
+m4_define([rb64u_cur],[0])
+m4_define([rb64u_rev],[0])
+m4_define([rb64u_age],[0])
+
 AC_PREREQ(2.61)
 LT_PREREQ([1.5.26])
 
-AC_INIT([librb64u],[0.0.0],[jon@wroth.org])
+AC_INIT([librb64u],[rb64u_cur.rb64u_rev.rb64u_age],[jon@wroth.org])
 # fails on my old system, but safely ignored
 LT_INIT
 
@@ -10,6 +15,9 @@ AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([librb64u.c])
 AM_INIT_AUTOMAKE([foreign])
+
+base64url_ltver="rb64u_cur:rb64u_rev:rb64u_age"
+AC_SUBST([base64url_ltver])
 
 AC_PROG_CC
 AC_PROG_LIBTOOL
