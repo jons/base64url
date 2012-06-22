@@ -3,13 +3,12 @@
 .libs
 a.out
 autom4te.cache
-aclocal.m4
-config.*
-configure
+config.status
+config.log
+config.h
 configure.scan
 autoscan.log
 Makefile
-Makefile.in
 librb64u.la
 librb64u.lo
 librb64u.o
