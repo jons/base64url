@@ -1,6 +1,6 @@
 # specify the binary interface here and allow tags to follow this schema
 m4_define([rb64u_cur],[0])
-m4_define([rb64u_rev],[0])
+m4_define([rb64u_rev],[1])
 m4_define([rb64u_age],[0])
 
 AC_PREREQ(2.61)
@@ -25,7 +25,7 @@ AC_PROG_LIBTOOL
 #AC_PROG_RANLIB
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h stdint.h string.h])
+AC_CHECK_HEADERS([stdlib.h stdint.h string.h assert.h])
 
 AC_C_CONST
 AC_TYPE_SIZE_T

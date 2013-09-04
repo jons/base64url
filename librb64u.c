@@ -5,7 +5,6 @@
  */
 #include <stdlib.h>
 #include <stdint.h>
-/*#include <stdio.h>*/
 #include <assert.h>
 #include "librb64u.h"
 
@@ -49,14 +48,17 @@ int base64url_encode(char *dest, const size_t maxlen, const char *src, const siz
          lost = 0,
          dsz = 0;
   b64ue_t s;
-
+  if (NULL != dlen) *dlen = 0;
   base64url_encode_reset(&s);
   for (i = 0; i < len; i++)
   {
     r = base64url_encode_ingest(&s, src[i]);
-    if (r < 0) return -1;
+    if (r < 0) {
+      if (NULL != dlen) *dlen = dsz;
+      return -1;
+    }
     if (r > 0) {
-      if (maxlen > *dlen)
+      if (maxlen > dsz)
         dest[dsz++] = base64url_encode_getc(&s);
       else
         lost++;
@@ -66,7 +68,7 @@ int base64url_encode(char *dest, const size_t maxlen, const char *src, const siz
     r = base64url_encode_finish(&s);
     if (r < 0) return -1;
     if (r > 0) {
-      if (maxlen > *dlen)
+      if (maxlen > dsz)
         dest[dsz++] = base64url_encode_getc(&s);
       else
         lost++;
@@ -74,12 +76,12 @@ int base64url_encode(char *dest, const size_t maxlen, const char *src, const siz
     else
       break;
   }
+  if (NULL != dlen) *dlen = dsz;
   if (lost > 0) {
     /*no support for %z in C90 and no need for output anyway */
     /*fprintf(stderr, "base64url_encode: dropped %zu bytes to avoid output buffer overrun.", lost);*/
     return -1;
   }
-  *dlen = dsz;
   return 0;
 }
 
@@ -91,14 +93,17 @@ int base64url_decode(char *dest, const size_t maxlen, const char *src, const siz
          lost = 0,
          dsz = 0;
   b64ud_t s;
-
+  if (NULL != dlen) *dlen = 0;
   base64url_decode_reset(&s);
   for (i = 0; i < len; i++)
   {
     r = base64url_decode_ingest(&s, src[i]);
-    if (r < 0) return -1;
+    if (r < 0) {
+      if (NULL != dlen) *dlen = dsz;
+      return -1;
+    }
     if (r > 0) {
-      if (maxlen > *dlen)
+      if (maxlen > dsz)
         dest[dsz++] = base64url_decode_getc(&s);
       else
         lost++;
@@ -106,9 +111,12 @@ int base64url_decode(char *dest, const size_t maxlen, const char *src, const siz
   }
   for (;;) {
     r = base64url_decode_finish(&s);
-    if (r < 0) return -1;
+    if (r < 0) {
+      if (NULL != dlen) *dlen = dsz;
+      return -1;
+    }
     if (r > 0) {   
-      if (maxlen > *dlen)
+      if (maxlen > dsz)
         dest[dsz++] = base64url_decode_getc(&s);
       else
         lost++;
@@ -116,12 +124,12 @@ int base64url_decode(char *dest, const size_t maxlen, const char *src, const siz
     else
       break;
   }
+  if (NULL != dlen) *dlen = dsz;
   if (lost > 0) {
     /*no support for %z in C90 and no need for output anyway */
     /*fprintf(stderr, "base64url_decode: dropped %zu bytes to avoid output buffer overrun.", lost);*/
     return -1;
   }
-  *dlen = dsz;
   return 0;
 }
 
