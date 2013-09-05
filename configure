@@ -20507,7 +20507,7 @@ fi
 done
 
 
-ac_config_files="$ac_config_files Makefile tests/Makefile"
+ac_config_files="$ac_config_files Makefile tests/Makefile codec/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -21098,6 +21098,7 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
+    "codec/Makefile") CONFIG_FILES="$CONFIG_FILES codec/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

@@ -34,6 +34,6 @@ AC_TYPE_UINT32_T
 
 AC_CHECK_FUNCS([memset memcpy])
 
-AC_CONFIG_FILES([Makefile tests/Makefile])
+AC_CONFIG_FILES([Makefile tests/Makefile codec/Makefile])
 
 AC_OUTPUT
