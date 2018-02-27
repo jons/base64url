@@ -1,7 +1,7 @@
 /**
  * re-entrant base64url
  * @author jon <jon@wroth.org>
- * CCBYSA3.0
+ * CC-BY-4.0
  */
 #include <stdlib.h>
 #include <stdint.h>

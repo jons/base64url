@@ -1,8 +1,8 @@
 /**
  * base64url stream encoder
  * read from stdin, encode, and write to stdout.
- * @author jon@wroth.org
- *
+ * @author jon <jon@wroth.org>
+ * CC-BY-4.0
  */
 
 #include <stdio.h>
