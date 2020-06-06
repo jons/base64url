@@ -4,10 +4,8 @@
  * @author jon <jon@wroth.org>
  * CC-BY-4.0
  */
-
 #include <stdio.h>
 #include "librb64u.h"
-
 
 /**
  */
@@ -24,12 +22,6 @@ int main(int argc, char **argv)
     r = base64url_decode_ingest(&s, c);
     if (r < 0) return -1;
     if (r > 0) printf("%c", base64url_decode_getc(&s));
-  }
-  for (;;) {
-    r = base64url_decode_finish(&s);
-    if (r < 0) return -1;
-    if (r == 0) break;
-    printf("%c", base64url_decode_getc(&s));
   }
   return 0;
 }

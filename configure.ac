@@ -1,6 +1,6 @@
 # specify the binary interface here and allow tags to follow this schema
-m4_define([rb64u_cur],[0])
-m4_define([rb64u_rev],[1])
+m4_define([rb64u_cur],[1])
+m4_define([rb64u_rev],[0])
 m4_define([rb64u_age],[0])
 
 AC_PREREQ(2.61)

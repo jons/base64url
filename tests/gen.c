@@ -1,11 +1,13 @@
 /**
+ * base64url stream encoder/decoder utility
+ * generate the decoder table from the encoder table and output the C
+ * declaration thereof.
  */
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 
-
-char base64url_etab[64] = {
+static const unsigned char base64url_etab[64] = {
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
   'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
   'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -17,12 +19,13 @@ char base64url_etab[64] = {
 
 int main (int argc, char **argv)
 {
-  char base64url_dtab[256];
-  int i, j, k = 0;
-  for (i = 0; i < 64; i++)
-    base64url_dtab[(uint8_t)base64url_etab[i]] = i;
+  unsigned char base64url_dtab[256] = { '\0' };
+  size_t i, j, k = 0;
 
-  printf("char base64url_dtab[256] = {\n");
+  for (i = 0; i < 64; i++)
+    base64url_dtab[(size_t)base64url_etab[i]] = i;
+
+  printf("static const unsigned char base64url_dtab[256] = {\n");
   for (i = 0; i < 16; i++) {
     printf("  ");
     for (j = 0; j < 16; j++)
